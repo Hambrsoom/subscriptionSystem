@@ -27,9 +27,11 @@ export class TasksService {
         user: User
     ): Promise<Task> {
         const taskFound = await this.taskRepository.findOne({ where: {id, userId: user.id }});
+
         if (!taskFound) {
             throw new NotFoundException('Task with ID '+ id + " not found");
-        } 
+        }
+         
         return taskFound;
     }
 
