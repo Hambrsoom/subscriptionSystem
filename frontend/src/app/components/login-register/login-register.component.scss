@@ -32,3 +32,15 @@ mat-card-content {
   width: 80%;
   margin: 20px auto;
 }
+
+.policy-criteria {
+  margin-left: 40px;
+  span {
+    margin-bottom: -10px;
+  }
+}
+
+.eye-icon {
+  user-select: none;
+  cursor: pointer;
+}
