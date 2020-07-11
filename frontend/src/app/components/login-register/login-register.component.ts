@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '../../models/user';
+import { AuthService } from '../../services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login-register',
@@ -14,14 +16,15 @@ export class LoginRegisterComponent implements OnInit {
   passwordHide = true;
   user: User;
   constructor(
-    // private _auth: AuthService,
-  private router: Router
+    private authService: AuthService,
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   get email() { return this.loginForm.get('email'); }
   get password() { return this.loginForm.get('password'); }
   get registerEmail() { return this.registerForm.get('registerEmail'); }
-  get registerPassword() { return this.registerEmail.get('registerPassword'); }
+  get registerPassword() { return this.registerForm.get('registerPassword'); }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -46,21 +49,37 @@ export class LoginRegisterComponent implements OnInit {
   }
 
   login(): void {
-    const email: string = this.email.value;
-    const password: string = this.password.value;
-    console.log(email);
-    console.log(password);
-    //  this._auth.loginUser(this.loginUserData).subscribe(
-    //    res => {
-    //      console.log(res),
-    //        localStorage.setItem('token', res.token);
-    //      this._router.navigate(['/home-page']);
-    //    },
-    //    err => console.log(err)//log them for now
-    //  )
+     this.authService.login({email: this.email.value, password: this.password.value}).subscribe(
+      res => {
+        this.authService.setLoggedIn(true);
+        this.router.navigate(['/home']);
+      },
+      () => this.openSnackBar('Your Email or Passowrd is incorrect')
+     );
    }
 
-   register() {
-
+   register(): void {
+    this.authService.register({email: this.registerEmail.value, password: this.registerPassword.value}).subscribe(
+      () => {
+        this.login();
+      },
+      err => {
+        console.log(err);
+        console.log(err.error);
+        console.log(err.error.statusCode);
+        if (err.error.statusCode === 409) {
+          this.openSnackBar('Email already exists');
+        }
+      }
+     );
    }
+
+   openSnackBar(message: string): void {
+    this.snackBar.open(message, 'X', {
+      duration: 2000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      panelClass: ['red-snackbar']
+    });
+  }
 }

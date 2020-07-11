@@ -291,3 +291,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
       visibility: hidden;
     }
   }
+  .red-snackbar {
+    background-color: #F44336;
+    button {
+      color: white;
+    }
+
+  }

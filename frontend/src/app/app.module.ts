@@ -12,11 +12,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginRegisterComponent } from './components/login-register/login-register.component';
+import { HttpClientModule } from '@angular/common/http';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { HomeComponent } from './components/home/home.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { ProfileComponent } from './components/profile/profile.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginRegisterComponent
+    LoginRegisterComponent,
+    HomeComponent,
+    NavBarComponent,
+    ProfileComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -30,7 +40,10 @@ import { LoginRegisterComponent } from './components/login-register/login-regist
     MatButtonModule,
     MatCheckboxModule,
     MatIconModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule,
+    MatSnackBarModule,
+    MatToolbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
